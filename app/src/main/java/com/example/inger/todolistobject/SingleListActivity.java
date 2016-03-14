@@ -4,9 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -46,7 +46,6 @@ public class SingleListActivity extends AppCompatActivity {
         toDoManager = (TodoManager) extras.getSerializable("toDoManager");
         toDos = (TodoList) extras.getSerializable("currentList");
         titleList = toDos.getTitle();
-        Log.d("titlelist", titleList);
 
         if (titleList.matches("")){
             // Activate creation of new list if file doesn't exist
@@ -98,16 +97,12 @@ public class SingleListActivity extends AppCompatActivity {
                 return;
             }
             // Add input to toDos
-            Log.d("input",input);
-            toDos.addItem(input);
+            TodoItem todoItem = toDos.addItem(input);
 
             // read items from toDos
-            listItems = toDos.readItems();
-            Log.d("listItems", String.valueOf(listItems));
+            listItems.add(todoItem.getItemName());
 
             // Update ListView
-            listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItems);
-            listToDo.setAdapter(listAdapter);
             listAdapter.notifyDataSetChanged();
 
             // Clear EditText
@@ -145,6 +140,33 @@ public class SingleListActivity extends AppCompatActivity {
                         }
 
                         return true;
+                    }
+                }
+        );
+        listToDo.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+
+                    /*
+                    * Change color of listviewItem if it has been clicked, according to status
+                     */
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        // Change status of item
+                        TodoItem itemToChange = toDos.get(position);
+                        itemToChange.Complete();
+
+                        // Change color to gray to indicate completed
+                        if (itemToChange.getIsCompleted() == false){
+                            listToDo.getChildAt(position).setBackgroundColor(Color.WHITE);
+                        }
+                        else {
+                            listToDo.getChildAt(position).setBackgroundColor(Color.GRAY);
+                        }
+
+                        // Update ListView
+                        listAdapter.notifyDataSetChanged();
+
                     }
                 }
         );

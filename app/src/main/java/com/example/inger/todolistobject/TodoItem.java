@@ -3,7 +3,7 @@ package com.example.inger.todolistobject;
 import android.util.Log;
 
 /**
- * Created by Inger on 7-3-2016.
+ * Stores data about individual items from the todolist.
  */
 public class TodoItem {
 
@@ -12,21 +12,43 @@ public class TodoItem {
     private Boolean isCompleted;
 
     // Constructor
+    /*
+    * Construct a todoItem with a given name and initial status of uncompleted.
+     */
     public TodoItem(String itemArg){
         item = itemArg;
-        Log.d("item in todoitem",item);
+
+        // Set status initially to uncompleted
         isCompleted = false;
     }
+
+
     // Methods
+
+    /*
+    * Return the status of the item
+     */
     public Boolean getIsCompleted(){
         return isCompleted;
     }
 
+    /*
+    * Return the name of the item
+     */
     public static String getItemName(){
         return item;
     }
 
+    /*
+    * Change status of the todoItem, depending on the status before.
+     */
     public void Complete(){
-        isCompleted = true;
+        if (isCompleted == false){
+            isCompleted = true;
+        }
+        else{
+            isCompleted = false;
+        }
+
     }
 }

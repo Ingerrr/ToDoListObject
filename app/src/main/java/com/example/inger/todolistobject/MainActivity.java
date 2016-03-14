@@ -46,15 +46,6 @@ public class MainActivity extends AppCompatActivity {
         // Setup listener for clicks on ListView
         setupListener();
 
-        // Check what was the last activity before app was killed
-        /*SharedPreferences prefs = this.getSharedPreferences("settings", this.MODE_PRIVATE);
-        int activityNumber = prefs.getInt("activity", 0);
-        if (activityNumber == 1){
-            // If last activity was not the MainActivity, go to the SingleListActivity with last opened list
-            TodoList lastList = prefs.getSeriazible("currentList", );
-
-            nextActivity(lastList);
-        }*/
     }
 
     /*

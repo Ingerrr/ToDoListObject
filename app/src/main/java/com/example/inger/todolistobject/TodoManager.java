@@ -1,20 +1,6 @@
 package com.example.inger.todolistobject;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,34 +11,52 @@ import java.util.Scanner;
 
 
 public class TodoManager extends TodoList implements Serializable {
+
+    // Fields
+    private static TodoManager ourInstance = new TodoManager();
     ArrayList<TodoList> todoManager;
     ArrayList<String> titles;
     String textFileName;
     TodoList todoList;
 
-    // Fields
-    private static TodoManager ourInstance = new TodoManager();
-
     // Constructor
+    /*
+    * Construct to do manager that lists todoLists
+     */
     public TodoManager() {
-        todoManager = new ArrayList<>();
+        // Create empty list of todolists
+        todoManager = new ArrayList<TodoList>();
     }
 
     // Methods
+
+    /*
+    * Return instance of todomanager
+     */
     public static TodoManager getInstance() {
         return ourInstance;
     }
 
+    /*
+    * Read titles of lists in the manager
+     */
     public ArrayList<String> readLists(){
+        // Create empty array to store titles in
         titles = new ArrayList<>();
+
+        // iterate over lists and achieve title of list
         for (TodoList todoList: todoManager){
             String title = TodoList.getTitle();
             titles.add(title);
         }
 
+        // Return titles
         return titles;
     }
 
+    /*
+    * Read todos from given file
+     */
     public TodoList readTodos(String title){
 
         // convert title into text file name
@@ -75,18 +79,28 @@ public class TodoManager extends TodoList implements Serializable {
             e.printStackTrace();
         }
 
+        // Return list
         return list;
 
     }
 
+    /*
+    * Add new todolist to manager
+     */
     public void addList(TodoList list){
         todoManager.add(list);
     }
 
+    /*
+    * Remove list with given title from manager
+     */
     public void deleteList(TodoList list){
         todoManager.remove(list);
     }
 
+    /*
+    * Write specific todolist to a file
+     */
     public void writeTodos(TodoList toDos, String title, Context context) throws FileNotFoundException {
 
         // convert title into text file name
@@ -110,11 +124,5 @@ public class TodoManager extends TodoList implements Serializable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-
-
-        //PrintStream out = new PrintStream(openFileOutput(textFileName));
-
-
     }
 }
